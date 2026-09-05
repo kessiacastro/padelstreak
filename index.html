@@ -34,14 +34,21 @@
 
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
-  html, body { max-width: 100%; overflow-x: hidden; }
+  /* `clip` and not `hidden`: `overflow-x: hidden` on <html> turns it into a
+     scroll container, and iOS Safari then lets you keep flicking past the
+     footer into blank space. `clip` crops without creating that container.
+     `hidden` first as the fallback for browsers without `clip`. */
+  html, body { max-width: 100%; overflow-x: hidden; overflow-x: clip; }
   img { max-width: 100%; height: auto; }
   body {
     margin: 0; background: var(--paper); color: var(--ink);
     font-family: var(--body); font-size: 17px; line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  /* Side padding only, as longhands. `.wrap` is combined with section classes
+     that set their own vertical padding (.band, .promise, .closing), and a
+     `padding` shorthand here silently resets theirs to zero. */
+  .wrap { max-width: 1120px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
 
   h1, h2, h3, .num { font-family: var(--display); letter-spacing: -.025em; }
   h1 { font-weight: 800; margin: 0; }
@@ -292,7 +299,7 @@
      they overflow here, because .shot-col is a flex row that doesn't wrap —
      a watch beside a phone came to 458px on a 390px screen. */
   @media (max-width: 620px) {
-    .wrap { padding: 0 18px; }
+    .wrap { padding-left: 18px; padding-right: 18px; }
     .shot-col { flex-wrap: wrap; gap: 14px; }
     .shot-col .phone { width: min(250px, 70vw); }
     .shot-col .watch-solo { width: min(190px, 42vw); }
@@ -300,7 +307,9 @@
     .cluster .phone { width: min(240px, 62vw); }
     .cluster .watch { width: min(140px, 36vw); left: 0; bottom: 18px; }
     .promise-inner { padding: 40px 22px; }
-    .band, .feature { padding-top: 52px; padding-bottom: 52px; }
+    .band, .feature, .promise { padding-top: 52px; padding-bottom: 52px; }
+    .closing { padding-top: 56px; padding-bottom: 56px; }
+    footer { padding-bottom: 36px; }
   }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
