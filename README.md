@@ -31,9 +31,18 @@ commit, push; Pages redeploys in a minute or two.
   and `privacy/index.html` (one `mailto:` and one link text in each).
 - **Changing the privacy policy means bumping its effective date**, which is
   stated at the top of `privacy/index.html`. The policy itself promises this.
-- **The landing page has a placeholder download button.** Once the app is
-  live, swap the `<span class="btn" aria-disabled="true">` for the commented-out
-  `<a>` above it with the real App Store ID.
+- **The landing page has a placeholder download button, in two places** (hero
+  and closing section). Once the app is live, replace each
+
+      <span class="btn" aria-disabled="true">Coming to the App Store</span>
+
+  with
+
+      <a class="btn" href="https://apps.apple.com/app/id6792495316">Download on the App Store</a>
+
+  The App Store ID is **6792495316** (App Store Connect → Informações do app →
+  ID Apple). The correct markup is also commented directly above the first
+  placeholder in `index.html`.
 - **Don't change these URLs once the app is submitted.** They're filed with
   App Store Connect, and a dead privacy policy URL is grounds for rejection.
   Renaming this repo or the `privacy/` folder would break them.
