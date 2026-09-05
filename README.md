@@ -1,12 +1,12 @@
-# padelpulse
+# padelstreak
 
-The public website for **PadelPulse**, a padel scoreboard and stats app for
+The public website for **Padel Streak**, a padel scoreboard and stats app for
 iPhone and Apple Watch. Two static pages, served by GitHub Pages:
 
 | Page | URL | Used for |
 |------|-----|----------|
-| Support | https://kessiacastro.github.io/padelpulse/ | App Store Connect "Support URL" (required) |
-| Privacy policy | https://kessiacastro.github.io/padelpulse/privacy/ | App Store Connect "Privacy Policy URL" (required) |
+| Support | https://kessiacastro.github.io/padelstreak/ | App Store Connect "Support URL" (required) |
+| Privacy policy | https://kessiacastro.github.io/padelstreak/privacy/ | App Store Connect "Privacy Policy URL" (required) |
 
 This repo is **public** because GitHub Pages requires it on a free plan. It holds
 only the website — the app source lives in a separate private repo.
