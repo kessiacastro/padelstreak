@@ -34,6 +34,8 @@
 
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  html, body { max-width: 100%; overflow-x: hidden; }
+  img { max-width: 100%; height: auto; }
   body {
     margin: 0; background: var(--paper); color: var(--ink);
     font-family: var(--body); font-size: 17px; line-height: 1.6;
@@ -284,6 +286,21 @@
     .promise-inner { grid-template-columns: 1fr; gap: 30px; }
     .navlinks { display: none; }
     .cluster { padding-left: 40px; }
+  }
+
+  /* Phones. The device frames are fixed pixel widths for desktop; left alone
+     they overflow here, because .shot-col is a flex row that doesn't wrap —
+     a watch beside a phone came to 458px on a 390px screen. */
+  @media (max-width: 620px) {
+    .wrap { padding: 0 18px; }
+    .shot-col { flex-wrap: wrap; gap: 14px; }
+    .shot-col .phone { width: min(250px, 70vw); }
+    .shot-col .watch-solo { width: min(190px, 42vw); }
+    .cluster { padding-left: 24px; }
+    .cluster .phone { width: min(240px, 62vw); }
+    .cluster .watch { width: min(140px, 36vw); left: 0; bottom: 18px; }
+    .promise-inner { padding: 40px 22px; }
+    .band, .feature { padding-top: 52px; padding-bottom: 52px; }
   }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
