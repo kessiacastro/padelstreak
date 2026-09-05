@@ -150,7 +150,7 @@
   }
   .points strong { color: var(--ink); font-weight: 700; }
 
-  .shot-col { display: flex; justify-content: center; gap: 18px; }
+  .shot-col { display: flex; justify-content: center; align-items: center; gap: 18px; }
   .shot-col .phone { width: 250px; }
   .shot-col .watch-solo {
     position: static; width: 190px; border-radius: 44px;
@@ -161,21 +161,93 @@
 
   /* ---------- numbers band ---------- */
   .band { padding: 88px 0; border-bottom: 1px solid var(--rule); }
-  .band .intro { max-width: 52ch; margin-bottom: 40px; }
-  .grid {
-    display: grid; gap: 1px; background: var(--rule);
-    border: 1px solid var(--rule); border-radius: 16px; overflow: hidden;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  .band-grid {
+    display: grid; gap: 56px; align-items: center;
+    grid-template-columns: 1.1fr .9fr;
   }
-  .cell { background: var(--card); padding: 24px 26px; }
-  .cell .num {
-    display: block; font-size: 30px; font-weight: 800;
-    color: var(--ink); line-height: 1; margin-bottom: 8px;
+  .band .intro { max-width: 46ch; }
+
+  /* the 100-point bar */
+  .meter { margin: 30px 0 0; }
+  .meter-track {
+    display: flex; height: 54px; border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--rule);
+  }
+  .seg {
+    display: grid; place-items: center;
+    font-family: var(--display); font-weight: 800; font-size: 15px;
+    color: #fff;
+  }
+  .seg.s-up   { flex: 10; background: #96A88C; }
+  .seg.s-win  { flex: 30; background: #0D0F12; }
+  .seg.s-sets { flex: 20; background: #0C6F6A; }
+  .seg.s-serve{ flex: 20; background: #C6F542; color: #12151A; }
+  .seg.s-break{ flex: 10; background: #43D6CE; color: #12151A; }
+  .seg.s-press{ flex: 10; background: #3E5C0A; }
+  .meter-cap {
+    display: flex; justify-content: space-between;
+    font-size: 13px; color: var(--ink-3); margin-top: 10px; font-weight: 600;
+  }
+
+  .legend { list-style: none; margin: 26px 0 0; padding: 0;
+    display: grid; gap: 12px 26px; grid-template-columns: 1fr 1fr; }
+  .legend li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; }
+  .legend .sw {
+    width: 13px; height: 13px; border-radius: 4px; flex: 0 0 auto; margin-top: 5px;
+    border: 1px solid rgba(0,0,0,.12);
+  }
+  .legend strong { display: block; color: var(--ink); font-weight: 700; }
+  .legend span.d { color: var(--ink-2); font-size: 14px; }
+
+  /* worked example, styled like the app */
+  .scorecard {
+    background: var(--night); border-radius: 22px; padding: 28px 30px;
+    box-shadow: 0 30px 60px -24px rgba(18,21,26,.5);
+  }
+  .scorecard .head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-bottom: 16px; margin-bottom: 6px; border-bottom: 1px solid #262A31;
+  }
+  .scorecard .result {
+    font-family: var(--display); font-weight: 800; font-size: 13px;
+    letter-spacing: .1em; text-transform: uppercase; color: #FF8C7E;
+  }
+  .scorecard .score {
+    font-family: var(--display); font-weight: 800; font-size: 20px; color: #fff;
+  }
+  .scorecard .line {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 11px 0; font-size: 15px; color: #A6ABB5;
+  }
+  .scorecard .line b {
+    font-family: var(--display); color: #E8EAEE; font-weight: 700;
     font-variant-numeric: tabular-nums;
   }
-  .cell .num small { font-size: 15px; color: var(--ink-3); font-weight: 500; }
-  .cell h3 { font-size: 15.5px; margin-bottom: 5px; }
-  .cell p { font-size: 14.5px; margin: 0; }
+  .scorecard .line.zero, .scorecard .line.zero b { color: #5A6470; }
+  .scorecard .line.max b { color: #C6F542; }
+  .scorecard .line .of { color: #5A6470; font-size: 13px; font-weight: 500; }
+  .scorecard .total {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-top: 12px; padding-top: 18px; border-top: 1px solid #262A31;
+  }
+  .scorecard .total span {
+    font-family: var(--display); font-weight: 800; font-size: 13px;
+    letter-spacing: .1em; text-transform: uppercase; color: #8B909A;
+  }
+  .scorecard .total b {
+    font-family: var(--display); font-weight: 800; font-size: 40px;
+    color: #C6F542; line-height: 1;
+  }
+  .scorecard .total b small { font-size: 16px; color: #5A6470; font-weight: 700; }
+  .scorecard .note {
+    margin: 18px 0 0; font-size: 13.5px; color: #8B909A; line-height: 1.5;
+  }
+
+  @media (max-width: 860px) {
+    .band-grid { grid-template-columns: 1fr; gap: 36px; }
+    .legend { grid-template-columns: 1fr; }
+    .seg { font-size: 13px; }
+  }
 
   /* ---------- promise ---------- */
   .promise { padding: 88px 0; }
@@ -367,43 +439,55 @@
 </div>
 
 <div class="wrap band" id="stats">
-  <div class="intro">
-    <h2>Earn points even when you lose</h2>
-    <p>
-      Every match is worth up to 100 points, and they only ever go up. Hold every
-      service game in a match you lost and you still bank the full twenty for it.
-    </p>
-  </div>
-  <div class="grid">
-    <div class="cell">
-      <span class="num">10</span>
-      <h3>Turning up</h3>
-      <p>For playing. Showing up is the habit worth rewarding.</p>
+  <div class="band-grid">
+    <div>
+      <div class="intro">
+        <h2>Earn points even when you lose</h2>
+        <p>
+          Every match is worth up to 100 points, and nothing can ever take them
+          away. Win and you bank a lot. Play well and lose and you still bank
+          plenty — which is the whole idea.
+        </p>
+      </div>
+
+      <div class="meter" role="img" aria-label="How a match's 100 points are divided: turning up 10, winning 30, sets won 20, holding serve 20, break points 10, pressure points 10.">
+        <div class="meter-track">
+          <div class="seg s-up">10</div>
+          <div class="seg s-win">30</div>
+          <div class="seg s-sets">20</div>
+          <div class="seg s-serve">20</div>
+          <div class="seg s-break">10</div>
+          <div class="seg s-press">10</div>
+        </div>
+        <div class="meter-cap"><span>0</span><span>100 points a match</span></div>
+      </div>
+
+      <ul class="legend">
+        <li><span class="sw" style="background:#96A88C"></span><span><strong>Turning up</strong><span class="d">Just for playing.</span></span></li>
+        <li><span class="sw" style="background:#0D0F12"></span><span><strong>Winning</strong><span class="d">Still matters most.</span></span></li>
+        <li><span class="sw" style="background:#0C6F6A"></span><span><strong>Sets won</strong><span class="d">Scaled across formats.</span></span></li>
+        <li><span class="sw" style="background:#C6F542"></span><span><strong>Holding serve</strong><span class="d">Your hold rate.</span></span></li>
+        <li><span class="sw" style="background:#43D6CE"></span><span><strong>Break points</strong><span class="d">Chances you take.</span></span></li>
+        <li><span class="sw" style="background:#3E5C0A"></span><span><strong>Pressure points</strong><span class="d">The ones that decide games.</span></span></li>
+      </ul>
     </div>
-    <div class="cell">
-      <span class="num">30</span>
-      <h3>Winning</h3>
-      <p>The result still matters most, but it isn't everything.</p>
-    </div>
-    <div class="cell">
-      <span class="num">20</span>
-      <h3>Sets won</h3>
-      <p>Scaled so best-of-one and best-of-three stay comparable.</p>
-    </div>
-    <div class="cell">
-      <span class="num">20</span>
-      <h3>Holding serve</h3>
-      <p>Your hold rate. Hold everything and it's all yours.</p>
-    </div>
-    <div class="cell">
-      <span class="num">10</span>
-      <h3>Break points</h3>
-      <p>Taking the chances you make.</p>
-    </div>
-    <div class="cell">
-      <span class="num">10</span>
-      <h3>Pressure points</h3>
-      <p>Break, golden, star, set and match points.</p>
+
+    <div class="scorecard">
+      <div class="head">
+        <span class="result">Defeat</span>
+        <span class="score">6–7 · 6–7</span>
+      </div>
+      <div class="line"><span>Turning up</span><b>10<span class="of"> / 10</span></b></div>
+      <div class="line zero"><span>Winning</span><b>0<span class="of"> / 30</span></b></div>
+      <div class="line zero"><span>Sets won</span><b>0<span class="of"> / 20</span></b></div>
+      <div class="line max"><span>Holding serve</span><b>20<span class="of"> / 20</span></b></div>
+      <div class="line"><span>Break points</span><b>7<span class="of"> / 10</span></b></div>
+      <div class="line"><span>Pressure points</span><b>7<span class="of"> / 10</span></b></div>
+      <div class="total"><span>Banked</span><b>44<small> / 100</small></b></div>
+      <p class="note">
+        Two tie-breaks lost, not a single service game dropped. The scoreline says
+        you lost twice — the points say you were the better server all evening.
+      </p>
     </div>
   </div>
 </div>
